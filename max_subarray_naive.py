@@ -1,17 +1,17 @@
 def sort(A):
-    return find_max_subarray(A)
+    return find_max_subarray(A, 0, len(A) - 1)
 
-def find_max_subarray(A):
+def find_max_subarray(A, low, high):
     total_best_sum = -float("inf")
     total_best_start = -1
     total_best_end = -1
 
-    for i in range(len(A)):
+    for i in range(high):
         best_sum = 0
         best_end = 0
         current_sum = 0
 
-        for j in range(i, len(A)):
+        for j in range(i, high):
             current_sum += A[j]
             if current_sum > best_sum:
                 best_end = j

@@ -1,9 +1,11 @@
 from math import floor
+import max_subarray_naive as naive
 
 def find_max_crossing_subarray(A, low, mid, high):
     """linear-time algorithm to determine the largest summed subarray that 
     crosses the middle line of the divide and conquer algorithm."""
-    left_sum =  -float("inf");
+    print "In find_max_crossing_subarray"
+    left_sum = -float("inf");
     sum = 0
     for i in reversed(range(mid+1)):
         sum += A[i]
@@ -25,7 +27,11 @@ def find_max_crossing_subarray(A, low, mid, high):
 def find_max_subarray(A, low, high):
     if low == high:
         return low, high, A[low]
+    elif high - low <= 20000:
+        print "directing to naive algorithm..."
+        return naive.find_max_subarray(A, low, high)
     else:
+        print "using standard algorithm..."
         mid = int(floor((low + high) / 2))
         left_low, left_high, left_sum = find_max_subarray(A, low, mid)
         right_low, right_high, right_sum = find_max_subarray(A, mid + 1, high)
