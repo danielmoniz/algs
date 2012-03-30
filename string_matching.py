@@ -62,15 +62,50 @@ def get_string_matching_automaton(pattern, alphabet):
     print "automaton_array:", automaton_array
     return lambda x,y: automaton_array[x][y]
 
-def is_suffix(potential_suffix, text):
-    for i in range(len(text) + 1):
-        if potential_suffix == text[i:] or (potential_suffix == '' and text[i:] == ''):
-            return True
-    return False
+# Knuth-Morris-Pratt matching algorithm
+# runtime of O(n)
+def kmp_matcher(text, pattern):
+    print "--------------------------"
+    print "text:", text
+    print "pattern:", pattern
+    n = len(text)
+    m = len(pattern)
+    pi = compute_prefix_function(pattern)
+    print "--------------------------"
+# q stores the number of characters matched
+    q = 0
+    for i in range(n):
+        while q > 0 and pattern[q] != text[i]:
+            q = pi[q-1]
+        if pattern[q] == text[i]:
+            q = q + 1
+        if q == m:
+            print "Pattern occurs with shift", i - m
+            q = pi[q-1] # look for the next match
+
+# preprocessing of O(m)
+def compute_prefix_function(pattern):
+    m = len(pattern)
+    pi = []
+    pi.append(0)
+    k = 0
+    for q in range (1, m):
+        while k > 0 and pattern[k] != pattern[q]:
+            k = pi[k]
+        if pattern[k] == pattern[q]:
+            k = k + 1
+        pi.append(k)
+    print "prefix function:", pi
+    return pi
 
 
+pattern = "ababaca"
+#prefix_function = compute_prefix_function(pattern)
+kmp_matcher("bacbabababacababacab", pattern)
 
 #naive_string_matcher("oogly boogly goog", "oog")
+
 #rabin_karp_matcher("3141592653589793", "26", 10, 11)
-delta = get_string_matching_automaton("aabab", "ab")
-finite_automaton_matcher("aabaabaababaabb", delta, len("aabab"))
+
+#delta = get_string_matching_automaton("aabab", "ab")
+#finite_automaton_matcher("aabaabaababaabb", delta, len("aabab"))
