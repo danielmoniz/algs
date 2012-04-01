@@ -91,7 +91,7 @@ def compute_prefix_function(pattern):
     k = 0
     for q in range (1, m):
         while k > 0 and pattern[k] != pattern[q]:
-            k = pi[k]
+            k = pi[k-1]
         if pattern[k] == pattern[q]:
             k = k + 1
         pi.append(k)
@@ -99,13 +99,13 @@ def compute_prefix_function(pattern):
     return pi
 
 
-pattern = "ababaca"
-#prefix_function = compute_prefix_function(pattern)
-kmp_matcher("bacbabababacababacab", pattern)
-
 #naive_string_matcher("oogly boogly goog", "oog")
 
 #rabin_karp_matcher("3141592653589793", "26", 10, 11)
 
 #delta = get_string_matching_automaton("aabab", "ab")
 #finite_automaton_matcher("aabaabaababaabb", delta, len("aabab"))
+
+#pattern = "ababbabbabbababbabb"
+prefix_function = compute_prefix_function(pattern)
+#kmp_matcher("bacbabababacababacab", pattern)
