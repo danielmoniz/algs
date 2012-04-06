@@ -23,7 +23,19 @@ def matrix_chain_order(p):
                     s[i][j] = k
                     m[i][j] = q
     return s, m
+
+def print_optimal_parens(s, i, j):
+    if i == j:
+        print "A_" + str(i),
+    else:
+        print "(",
+        print_optimal_parens(s, i, s[i][j])
+        print_optimal_parens(s, s[i][j] + 1, j)
+        print ")",
     
+matrix_sizes = [30, 35, 15, 5, 10, 20, 25]
 s, m = matrix_chain_order([30, 35, 15, 5, 10, 20, 25])
 print "s:", s
 print "m:", m
+n = len(matrix_sizes) - 1
+print_optimal_parens(s, 0, n-1)
